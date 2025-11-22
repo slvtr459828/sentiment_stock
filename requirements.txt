@@ -1,0 +1,15 @@
+jupyterlab
+yfinance
+pandas
+numpy
+requests
+beautifulsoup4
+lxml
+python-dotenv
+tqdm
+linearmodels
+statsmodels
+transformers
+torch
+hf-xet
+matplotlib
