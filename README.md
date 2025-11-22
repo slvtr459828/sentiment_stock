@@ -115,7 +115,7 @@ Where:
 
 ## 📝 Authors
 
-  * **Project Lead:** [Your Name]
+  * **Project Lead:** Group 5 
   * **Tools Used:** Python, PyCharm, Jupyter Notebook.
 
 -----
