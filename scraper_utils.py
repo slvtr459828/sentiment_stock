@@ -52,15 +52,24 @@ RE_SITEMAP_JUNK = re.compile(
 
 RE_CAFEF_ARTICLE = re.compile(r'-\d{10,}\.chn$')
 
+
 def get_soup(url: str) -> Optional[BeautifulSoup]:
     try:
-        response = requests.get(url, headers=HEADERS, timeout=10)
+        # Tăng timeout lên 30s cho mạng chậm
+        response = requests.get(url, headers=HEADERS, timeout=30)
         response.raise_for_status()
-        return BeautifulSoup(response.text, 'lxml')
-    except requests.RequestException as e:
-        logging.warning(f"Không thể tải {url}: {e}")
-        return None
 
+        # --- SỬA LỖI WARNING: TỰ ĐỘNG CHỌN PARSER ---
+        # Nếu link là .xml hoặc có chữ 'sitemap' -> Dùng 'xml' parser
+        if url.endswith('.xml') or 'sitemap' in url:
+            return BeautifulSoup(response.content, 'xml')
+
+        # Các trường hợp còn lại (bài báo) -> Dùng 'lxml' parser (HTML)
+        else:
+            return BeautifulSoup(response.text, 'lxml')
+
+    except requests.RequestException:
+        return None
 
 def _parse_datetime_sitemap(date_str: str) -> Optional[datetime]:
     if not date_str:
